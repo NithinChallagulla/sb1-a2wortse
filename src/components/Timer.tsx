@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Clock } from 'lucide-react';
 import { TIMER_CONFIG } from '../config/timing';
+import { RevealAnimation } from './RevealAnimation';
 
 interface TimeLeft {
   days: number;
@@ -12,6 +13,7 @@ interface TimeLeft {
 export const Timer: React.FC = () => {
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [isReady, setIsReady] = useState(false);
+  const [showReveal, setShowReveal] = useState(false);
 
   useEffect(() => {
     const calculateTimeLeft = () => {
@@ -20,6 +22,7 @@ export const Timer: React.FC = () => {
 
       if (difference <= 0) {
         setIsReady(true);
+        setShowReveal(true);
         return;
       }
 
@@ -67,5 +70,5 @@ export const Timer: React.FC = () => {
     );
   }
 
-  return null;
+  return showReveal ? <RevealAnimation /> : null;
 };
