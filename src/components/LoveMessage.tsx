@@ -55,7 +55,7 @@ love you bangaaram
 anni baagunte ee decade ayyelopu mana pelli ayipoddi happy ga
 vadhileyyavu kadha nannu ammuluuu
 I love you soo much ra
-Happy New Year ammuluu  [Your message will go here]
+Happy New Year ammuluu  
         </p>
         <div className="mt-6 text-sm text-gray-500">With all my love ❤️</div>
       </div>
