@@ -2,38 +2,66 @@ import React, { useState, useEffect } from 'react';
 import { Clock } from 'lucide-react';
 import { TIMER_CONFIG } from '../config/timing';
 
+interface TimeLeft {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+}
+
 export const Timer: React.FC = () => {
-  const [timeLeft, setTimeLeft] = useState<number>(5);
+  const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    const startTime = Date.now();
-    
-    const updateTimer = () => {
-      const elapsed = Date.now() - startTime;
-      const remaining = Math.max(0, Math.ceil((TIMER_CONFIG.REVEAL_DELAY - elapsed) / 1000));
-      
-      if (remaining === 0) {
+    const calculateTimeLeft = () => {
+      const now = Date.now();
+      const difference = TIMER_CONFIG.TARGET_DATE - now;
+
+      if (difference <= 0) {
         setIsReady(true);
         return;
       }
-      
-      setTimeLeft(remaining);
+
+      setTimeLeft({
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / 1000 / 60) % 60),
+        seconds: Math.floor((difference / 1000) % 60)
+      });
     };
 
-    const timer = setInterval(updateTimer, 100);
-    updateTimer();
+    const timer = setInterval(calculateTimeLeft, 1000);
+    calculateTimeLeft();
 
     return () => clearInterval(timer);
   }, []);
 
   if (!isReady) {
     return (
-      <div className="fixed inset-0 bg-black/95 flex items-center justify-center z-50">
+      <div className="fixed inset-0 bg-black flex items-center justify-center z-50">
         <div className="text-center p-8 rounded-lg">
           <Clock className="w-16 h-16 text-red-500 mx-auto mb-4 animate-pulse" />
-          <h2 className="text-2xl font-serif text-white mb-4">Our Love Story Unveils In</h2>
-          <div className="text-4xl font-mono text-red-500 font-bold">{timeLeft}s</div>
+          <h2 className="text-2xl font-serif text-white mb-6">Our Love Story Unveils In</h2>
+          <div className="grid grid-cols-4 gap-4 text-center mb-4">
+            <div>
+              <div className="text-3xl font-mono text-red-500 font-bold">{timeLeft.days}</div>
+              <div className="text-sm text-gray-400">Days</div>
+            </div>
+            <div>
+              <div className="text-3xl font-mono text-red-500 font-bold">{timeLeft.hours}</div>
+              <div className="text-sm text-gray-400">Hours</div>
+            </div>
+            <div>
+              <div className="text-3xl font-mono text-red-500 font-bold">{timeLeft.minutes}</div>
+              <div className="text-sm text-gray-400">Minutes</div>
+            </div>
+            <div>
+              <div className="text-3xl font-mono text-red-500 font-bold">{timeLeft.seconds}</div>
+              <div className="text-sm text-gray-400">Seconds</div>
+            </div>
+          </div>
+          <p className="text-gray-400 text-sm">Until New Year 2025</p>
         </div>
       </div>
     );
