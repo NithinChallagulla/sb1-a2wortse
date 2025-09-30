@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Clock } from 'lucide-react';
-import { TIMER_CONFIG } from '../config/timing';
 import { RevealAnimation } from './RevealAnimation';
 
 interface TimeLeft {
@@ -10,6 +9,9 @@ interface TimeLeft {
   seconds: number;
 }
 
+// Opening time: 12:17 AM IST, 1 October 2025
+const TARGET_DATE = new Date("2025-10-01T00:17:00+05:30").getTime();
+
 export const Timer: React.FC = () => {
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [isReady, setIsReady] = useState(false);
@@ -18,7 +20,7 @@ export const Timer: React.FC = () => {
   useEffect(() => {
     const calculateTimeLeft = () => {
       const now = Date.now();
-      const difference = TIMER_CONFIG.TARGET_DATE - now;
+      const difference = TARGET_DATE - now;
 
       if (difference <= 0) {
         setIsReady(true);
@@ -64,7 +66,7 @@ export const Timer: React.FC = () => {
               <div className="text-sm text-gray-400">Seconds</div>
             </div>
           </div>
-          <p className="text-gray-400 text-sm">Until New Year 2025</p>
+          <p className="text-gray-400 text-sm">Until 12:17 AM IST, 1 October 2025</p>
         </div>
       </div>
     );
