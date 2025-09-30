@@ -10,7 +10,7 @@ interface TimeLeft {
 }
 
 // Opening time: 12:17 AM IST, 1 October 2025
-const TARGET_DATE = new Date("2025-10-01T00:17:00+05:30").getTime();
+const TARGET_DATE = new Date("2025-10-01T00:19:00+05:30").getTime();
 
 export const Timer: React.FC = () => {
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
